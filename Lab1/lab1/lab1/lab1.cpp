@@ -181,6 +181,24 @@ public:
         }
     }
 
+    static void LongShiftBitsToLow(BigNumber& A, int shift) {
+        if (shift <= 0) return;
+
+        int blockShift = shift / 32;
+        int bitShift = shift % 32;
+
+        for (int i = 0; i < n - blockShift; ++i) {
+            A.blocks[i] = A.blocks[i + blockShift] >> bitShift;
+            if (i + blockShift + 1 < n && bitShift != 0) {
+                A.blocks[i] |= A.blocks[i + blockShift + 1] << (32 - bitShift);
+            }
+        }
+        for (int i = n - blockShift; i < n; ++i) {
+            A.blocks[i] = 0;
+        }
+    }
+
+
 
     static void LongDivMod(const BigNumber& A, const BigNumber& B, BigNumber& Q, BigNumber& R) {
         if (LongCmp(B, BigNumber()) == 0) {
@@ -280,6 +298,18 @@ public:
         }
         std::cout << std::endl;
     }
+
+    int highest_non_zero_bit() {
+        for (int i = n - 1; i >= 0; i--) {
+            if (blocks[i] != 0) {
+                int block_index = i / 32;
+                int bit_position = i % 32;
+
+                break;
+            }
+        }
+    }
+    
 };
 
 
@@ -306,6 +336,21 @@ void testAddition() {
     assert(BigNumber::LongCmp(A5 + B5, BigNumber("ABCDFA68AE8F9786AF97858C8BB58C8BA", 16)) == 0);
    
 
+    BigNumber A6("73978279069634497665512235158414063251442567590765");
+    BigNumber B6("66256768991152640187607361535285503209839744578823");
+    assert(BigNumber::LongCmp(A6 + B6, BigNumber("140235048060787137853119596693699566461282312169588")) == 0);
+
+    BigNumber A7("73978279069634497665512235158414063251442567590765");
+    BigNumber B7("66256768991152640187607361535285503209839744578823");
+    assert(BigNumber::LongCmp(A7 - B7, BigNumber("7721510078481857477904873623128560041602823011942")) == 0);
+
+    BigNumber A8("73978279069634497665512235158414063251442567590765");
+    BigNumber B8("66256768991152640187607361535285503209839744578823");
+    assert(BigNumber::LongCmp(A8 * B8, BigNumber("4901561746679795373024231709473936346325741315650432714424079344943994859380360527133565664749369595")) == 0);
+
+    BigNumber A9("73978279069634497665512235158414063251442567590765");
+    BigNumber B9("66256768991152640187607361535285503209839744578823");
+    assert(BigNumber::LongCmp(A9 / B9, BigNumber("1")) == 0);
 }
 
 void testSubtraction() {
