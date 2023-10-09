@@ -105,7 +105,7 @@ public:
 
         if (borrow) {
             //std::cerr << "\nError: Negative value in subtraction.\n";
-            return BigNumber(); // повертаємо 0
+            return BigNumber(0u); // повертаємо 0
         }
 
         return result;
@@ -198,8 +198,6 @@ public:
         }
     }
 
-
-
     static void LongDivMod(const BigNumber& A, const BigNumber& B, BigNumber& Q, BigNumber& R) {
         if (LongCmp(B, BigNumber()) == 0) {
             std::cerr << "Error. Division by 0!\n";
@@ -240,8 +238,24 @@ public:
         LongDivMod(*this, B, Q, R);
         return R;
     }
-    
-
+    BigNumber operator>>(const int shift) const {
+        if (shift < 0) {
+            std::cerr << "Negative shift is not supported." << std::endl;
+            return *this;
+        }
+        BigNumber A = *this;
+        LongShiftBitsToLow(A, shift);
+        return A;
+    }
+    BigNumber operator<<(const int shift) const {
+        if (shift < 0) {
+            std::cerr << "Negative shift is not supported." << std::endl;
+            return *this;
+        }
+        BigNumber A = *this;
+        LongShiftBitsToHigh(A, shift);
+        return A;
+    }
     BigNumber LongPower(const BigNumber& exponent) {
         BigNumber result(1);
         BigNumber A = *this;
@@ -297,17 +311,6 @@ public:
             std::cout << blocks[i] << " ";
         }
         std::cout << std::endl;
-    }
-
-    int highest_non_zero_bit() {
-        for (int i = n - 1; i >= 0; i--) {
-            if (blocks[i] != 0) {
-                int block_index = i / 32;
-                int bit_position = i % 32;
-
-                break;
-            }
-        }
     }
     
 };
