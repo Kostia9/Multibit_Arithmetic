@@ -67,7 +67,7 @@ public:
     }
 
     BigNumber& operator=(const BigNumber& other) {
-        if (this != &other) {  // перевірка на приCвоювання Cамому Cобі
+        if (this != &other) {  // перевірка на присвоювання самому собі
             for (int i = 0; i < n; ++i) {
                 blocks[i] = other.blocks[i];
             }
@@ -221,7 +221,7 @@ public:
 
             R = R - C;
 
-            BigNumber bitSetter;
+            BigNumber bitSetter; //встановити в Q біт із номером(t – k)
             bitSetter.blocks[(t - k) / 32] = 1u << ((t - k) % 32);
             Q = Q + bitSetter;
         }
@@ -257,26 +257,23 @@ public:
         return A;
     }
     BigNumber LongPower(const BigNumber& exponent) {
-        BigNumber result(1);
+
+        BigNumber C(1);
         BigNumber A = *this;
         int bitLength = exponent.BitLength();
-
-        for (int i = 0; i < bitLength; ++i) {
+        for (int i = bitLength - 1; i >= 0; --i) {
             int block_index = i / 32;
             int bit_position = i % 32;
-
             uint32_t bit_i = (exponent.blocks[block_index] >> bit_position) & 1;
 
             if (bit_i == 1) {
-                result = result * A;
+                C = C * A;
             }
-
-            if (i != bitLength - 1) {
-                A = A * A;
+            if (i != 0) {
+                C = C * C;
             }
         }
-
-        return result;
+        return C;
     }
 
 
