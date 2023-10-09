@@ -1,0 +1,94 @@
+
+# Visual Studio files
+*.suo
+*.sdf
+*.db
+*.opensdf
+*.opendb
+*.VC.db
+*.VC.VC.opendb
+*.user
+*.aps
+*.ncb
+*.log
+*.tlog
+*.sbr
+*.obj
+*.pdb
+*.idb
+*.pch
+*.ipch
+*.ilk
+*.res
+*.scc
+*.vspscc
+*.vssscc
+*.bak
+*.swp
+*.vscode
+*.DS_Store
+.vscode/
+.vs/
+Debug/
+Release/
+x64/
+x86/
+*.exe
+*.dll
+*.lib
+
+# Object files, Build folders etc
+*.o
+*.a
+*.la
+*.lo
+*.so
+*.so.[0-9]*
+*.a.out
+*.pyc
+*.swp
+*~
+*.bak
+*.BAK
+*.TMP
+*.tmp
+*.swp
+*.kate-swp
+__pycache__/
+
+# IDE files
+.idea/
+.nbproject/
+*.sublime-project
+*.sublime-workspace
+*.kdev4
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
